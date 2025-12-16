@@ -263,21 +263,30 @@ MODELS = {
         "labels": os.path.join(BASE_DIR,"leaf_labels.txt")
     }
 }
-# LOAD MODEL WITH FILE CHECK
+# LOAD MODEL WITH FILE CHECK (LEGACY H5 HACK)
 @st.cache_resource
 def load_model_and_labels(model_path, labels_path):
     if not os.path.exists(model_path):
         st.error(f"Model file not found: {model_path}")
         return None, None
+
     if not os.path.exists(labels_path):
         st.error(f"Labels file not found: {labels_path}")
         return None, None
 
     tf.keras.backend.clear_session()
-    model = tf.keras.models.load_model(model_path, compile=False)
+
+    model = tf.keras.models.load_model(
+        model_path,
+        compile=False,
+        safe_mode=False   # 🔥 THIS IS THE HACK
+    )
+
     with open(labels_path, "r", encoding="utf-8") as f:
         labels = [x.strip() for x in f if x.strip()]
+
     return model, labels
+
 # IMAGE PREPROCESS
 def preprocess_image(img):
     img = img.convert("RGB").resize((224, 224))
@@ -339,6 +348,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
