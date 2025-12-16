@@ -36,7 +36,7 @@ st.set_page_config(
     page_icon="🌿",
     layout="centered"
 )
-robot_gif = Path("assets/3.gif")
+robot_gif = Path("3.gif")
 robot_bytes = robot_gif.read_bytes()
 encoded_robot = base64.b64encode(robot_bytes).decode()
 GIF_PATH = Path("1.gif")
@@ -339,6 +339,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
