@@ -255,12 +255,12 @@ st.markdown(
 # MODEL PATHS
 MODELS = {
     "Bird Identifier": {
-        "model": os.path.join(BASE_DIR, "model", "birds_model.h5"),
-        "labels": os.path.join(BASE_DIR, "model", "birds_labels.txt")
+        "model": os.path.join(BASE_DIR,"birds_model.h5"),
+        "labels": os.path.join(BASE_DIR,"birds_labels.txt")
     },
     "Leaf Identifier": {
-        "model": os.path.join(BASE_DIR, "model", "leaf_model.h5"),
-        "labels": os.path.join(BASE_DIR, "model", "leaf_labels.txt")
+        "model": os.path.join(BASE_DIR,"leaf_model.h5"),
+        "labels": os.path.join(BASE_DIR,"leaf_labels.txt")
     }
 }
 # LOAD MODEL WITH FILE CHECK
@@ -339,6 +339,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
