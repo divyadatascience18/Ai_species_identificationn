@@ -1,7 +1,4 @@
-tensorflow==2.15.0
-keras==2.15.0
-numpy<2
-protobuf<4
-
-
-
+tensorflow
+numpy
+pillow
+streamlit
