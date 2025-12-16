@@ -214,7 +214,7 @@ st.markdown("""
 <div class="overlay"></div>
 """, unsafe_allow_html=True)
 # BACKGROUND VIDEO FUNCTION
-VIDEO_PATH = Path(r"C:\ml\leaf_web_stremlit\BG.PINK.mp4")
+VIDEO_PATH = Path(BG.PINK.mp4")
 def set_background_video(video_path):
     if not video_path.exists():
         st.warning("Background video file not found.")
@@ -339,6 +339,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
