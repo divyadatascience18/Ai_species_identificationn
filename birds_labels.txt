@@ -1,0 +1,15 @@
+0 White-Wagtail
+1 White-Breasted-Kingfisher
+2 Rufous-Treepie
+3 Ruddy-Shelduck
+4 Red-Wattled-Lapwing
+5 Northern-Lapwing
+6 Indian-Roller
+7 Indian-Peacock
+8 Indian-Grey-Hornbill
+9 House-Crow
+10 Hoopoe
+11 Common-Myna
+12 Common-Kingfisher
+13 Cattle-Egret
+14 Asian-Green-Bee-Eater
