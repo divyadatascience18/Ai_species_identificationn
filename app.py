@@ -252,45 +252,39 @@ st.markdown(
     '<h1 class="fade-in main-title">AI-Powered Species Identification</h1>',
     unsafe_allow_html=True
 )
-# MODEL PATHS
-birds_model, birds_labels = load_model_and_labels(
-    "birds_model",
-    "birds_labels.txt"
+MODELS = {
+    "Bird Identifier": {
+        "model": "birds_model",
+        "labels": "birds_labels.txt"
+    },
+    "Leaf Identifier": {
+        "model": "leaf_model",
+        "labels": "leaf_labels.txt"
+    }
+}
+
 )
-
-leaf_model, leaf_labels = load_model_and_labels(
-    "leaf_model",
-    "leaf_labels.txt"
-)
-
-
 @st.cache_resource
 def load_model_and_labels(model_dir, labels_path):
-    # --- Check model folder ---
     if not os.path.isdir(model_dir):
         st.error(f"Model folder not found: {model_dir}")
         return None, None
 
-    # --- Check labels file ---
     if not os.path.isfile(labels_path):
         st.error(f"Labels file not found: {labels_path}")
         return None, None
 
-    # --- Clear TF session (important on Streamlit Cloud) ---
     tf.keras.backend.clear_session()
 
-    # --- Load SavedModel (NO hacks needed) ---
     model = tf.keras.models.load_model(
         model_dir,
         compile=False
     )
 
-    # --- Load labels ---
     with open(labels_path, "r", encoding="utf-8") as f:
         labels = [line.strip() for line in f if line.strip()]
 
     return model, labels
-
 
 # IMAGE PREPROCESS
 def preprocess_image(img):
@@ -353,6 +347,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
