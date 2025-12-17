@@ -253,39 +253,44 @@ st.markdown(
     unsafe_allow_html=True
 )
 # MODEL PATHS
-MODELS = {
-    "Bird Identifier": {
-        "model": os.path.join(BASE_DIR,"birds_model.h5"),
-        "labels": os.path.join(BASE_DIR,"birds_labels.txt")
-    },
-    "Leaf Identifier": {
-        "model": os.path.join(BASE_DIR,"leaf_model.h5"),
-        "labels": os.path.join(BASE_DIR,"leaf_labels.txt")
-    }
-}
-# LOAD MODEL WITH FILE CHECK (LEGACY H5 HACK)
+birds_model, birds_labels = load_model_and_labels(
+    "birds_model",
+    "birds_labels.txt"
+)
+
+leaf_model, leaf_labels = load_model_and_labels(
+    "leaf_model",
+    "leaf_labels.txt"
+)
+
+
 @st.cache_resource
-def load_model_and_labels(model_path, labels_path):
-    if not os.path.exists(model_path):
-        st.error(f"Model file not found: {model_path}")
+def load_model_and_labels(model_dir, labels_path):
+    # --- Check model folder ---
+    if not os.path.isdir(model_dir):
+        st.error(f"Model folder not found: {model_dir}")
         return None, None
 
-    if not os.path.exists(labels_path):
+    # --- Check labels file ---
+    if not os.path.isfile(labels_path):
         st.error(f"Labels file not found: {labels_path}")
         return None, None
 
+    # --- Clear TF session (important on Streamlit Cloud) ---
     tf.keras.backend.clear_session()
 
+    # --- Load SavedModel (NO hacks needed) ---
     model = tf.keras.models.load_model(
-        model_path,
-        compile=False,
-        safe_mode=False   # 🔥 THIS IS THE HACK
+        model_dir,
+        compile=False
     )
 
+    # --- Load labels ---
     with open(labels_path, "r", encoding="utf-8") as f:
-        labels = [x.strip() for x in f if x.strip()]
+        labels = [line.strip() for line in f if line.strip()]
 
     return model, labels
+
 
 # IMAGE PREPROCESS
 def preprocess_image(img):
@@ -348,6 +353,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
