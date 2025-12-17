@@ -263,7 +263,6 @@ MODELS = {
     }
 }
 
-)
 @st.cache_resource
 def load_model_and_labels(model_dir, labels_path):
     if not os.path.isdir(model_dir):
@@ -347,6 +346,7 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
 
 
 
