@@ -252,38 +252,36 @@ st.markdown(
     '<h1 class="fade-in main-title">AI-Powered Species Identification</h1>',
     unsafe_allow_html=True
 )
-# MODEL PATHS
 MODELS = {
     "Bird Identifier": {
-        "model": os.path.join(BASE_DIR,"birds_model.h5"),
-        "labels": os.path.join(BASE_DIR,"birds_labels.txt")
+        "model": "birds_model",
+        "labels": "birds_labels.txt"
     },
     "Leaf Identifier": {
-        "model": os.path.join(BASE_DIR,"leaf_model.h5"),
-        "labels": os.path.join(BASE_DIR,"leaf_labels.txt")
+        "model": "leaf_model",
+        "labels": "leaf_labels.txt"
     }
 }
-# LOAD MODEL WITH FILE CHECK (LEGACY H5 HACK)
+
 @st.cache_resource
-def load_model_and_labels(model_path, labels_path):
-    if not os.path.exists(model_path):
-        st.error(f"Model file not found: {model_path}")
+def load_model_and_labels(model_dir, labels_path):
+    if not os.path.isdir(model_dir):
+        st.error(f"Model folder not found: {model_dir}")
         return None, None
 
-    if not os.path.exists(labels_path):
+    if not os.path.isfile(labels_path):
         st.error(f"Labels file not found: {labels_path}")
         return None, None
 
     tf.keras.backend.clear_session()
 
     model = tf.keras.models.load_model(
-        model_path,
-        compile=False,
-        safe_mode=False   # 🔥 THIS IS THE HACK
+        model_dir,
+        compile=False
     )
 
     with open(labels_path, "r", encoding="utf-8") as f:
-        labels = [x.strip() for x in f if x.strip()]
+        labels = [line.strip() for line in f if line.strip()]
 
     return model, labels
 
@@ -348,6 +346,9 @@ if uploaded_file:
     """, unsafe_allow_html=True)
     else:
         st.info("No additional information available for this species.")
+
+
+
 
 
 
